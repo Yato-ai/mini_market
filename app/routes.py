@@ -193,4 +193,47 @@ def admin_products():
     conn.close()
 
     return render_template("admin/products.html", products=products)
+@main.route('/initdb')
+def init_db():
+    import sqlite3
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    # Create users table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            is_admin INTEGER DEFAULT 0
+        )
+    ''')
+
+    # Create products table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS products (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            price TEXT NOT NULL,
+            image_filename TEXT
+        )
+    ''')
+
+    # Create orders table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS orders (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            items TEXT NOT NULL,
+            total_price TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        )
+    ''')
+
+    conn.commit()
+    conn.close()
+
+    return '✅ Database initialized!'
+
 
