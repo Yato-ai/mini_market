@@ -1,0 +1,17 @@
+/* app/static/css/style.css */
+h1 {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.cool-btn {
+  background: linear-gradient(to right, #00b4db, #0083b0);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  transition: transform 0.2s ease;
+}
+
+.cool-btn:hover {
+  transform: scale(1.05);
+}
+

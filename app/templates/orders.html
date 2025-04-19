@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">🧾 My Orders</h1>
+
+{% if orders %}
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    {% for order in orders %}
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+        {% if order.image %}
+          <img src="{{ url_for('static', filename='uploads/' ~ order.image) }}"
+               alt="Image" class="mb-4 w-full h-40 object-cover rounded">
+        {% endif %}
+        <h2 class="text-xl font-semibold">{{ order.name }}</h2>
+        <p class="text-gray-600 dark:text-gray-400">Price: {{ order.price }}</p>
+        <p class="text-sm text-gray-400 mt-2">Ordered on: {{ order.time }}</p>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-gray-500">You haven't ordered anything yet.</p>
+{% endif %}
+
+<a href="/products" class="block mt-6 text-blue-600 hover:underline">⬅️ Back to Products</a>
+{% endblock %}
+

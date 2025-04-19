@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Users</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-10">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">👥 Registered Users</h1>
+    <table class="w-full bg-white shadow rounded">
+      <thead class="bg-gray-200">
+        <tr>
+          <th class="p-3 text-left">ID</th>
+          <th class="p-3 text-left">Username</th>
+          <th class="p-3 text-left">Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr class="border-b">
+            <td class="p-3">{{ user[0] }}</td>
+            <td class="p-3">{{ user[1] }}</td>
+            <td class="p-3">{{ user[2] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="/admin" class="block mt-6 text-blue-600 hover:underline">⬅️ Back to Dashboard</a>
+  </div>
+</body>
+</html>
+

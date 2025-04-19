@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-10">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">🧺 Your Cart</h1>
+
+    {% if products %}
+      <div class="grid gap-6 md:grid-cols-2">
+        {% for product in products %}
+          <div class="bg-white p-6 rounded-xl shadow">
+            {% if product.image %}
+              <img src="{{ url_for('static', filename='uploads/' ~ product.image) }}" alt="Image"
+                   class="mb-4 w-full h-40 object-cover rounded">
+            {% endif %}
+            <h2 class="text-xl font-semibold">{{ product.name }}</h2>
+            <p class="text-gray-600">Price: {{ product.price }}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      <form method="POST" action="/checkout" class="mt-6">
+        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+          ✅ Checkout
+        </button>
+      </form>
+    {% else %}
+      <p class="text-gray-500">Your cart is empty.</p>
+    {% endif %}
+
+    <a href="/products" class="block mt-6 text-blue-600 hover:underline">⬅️ Back to Products</a>
+  </div>
+</body>
+</html>
+
