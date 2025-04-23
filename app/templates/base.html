@@ -1,31 +1,79 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <title>{% block title %}Mini Market{% endblock %}</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+    <title>Mini Marketplace</title>
 
-  <script>
-    // Optional Dark Mode Toggle
-    function toggleTheme() {
-      const html = document.documentElement;
-      html.classList.toggle('dark');
-      localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
-    }
-    if (localStorage.theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    }
-  </script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        };
+    </script>
+
+    <!-- Theme handling -->
+    <script>
+        function applyTheme() {
+            const html = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+
+            if (localStorage.getItem('theme') === 'dark') {
+                html.classList.add('dark');
+                themeToggle.textContent = '🌞';
+            } else {
+                html.classList.remove('dark');
+                themeToggle.textContent = '🌚';
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                themeToggle.textContent = '🌚';
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.textContent = '🌞';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', applyTheme);
+    </script>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors min-h-screen">
+<body class="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen flex flex-col">
 
-  {% include 'navbar.html' %}
+    <!-- Navbar -->
+    <nav class="bg-gray-100 dark:bg-gray-800 p-4 shadow flex justify-between items-center">
+        <div class="text-xl font-bold">Mini Market</div>
+        <div class="space-x-4 flex items-center">
+            <a href="/" class="hover:underline">Home</a>
+            <a href="/products" class="hover:underline">Products</a>
+            <a href="/cart" class="hover:underline">Cart</a>
 
-  <main class="max-w-6xl mx-auto p-6">
-    {% block content %}{% endblock %}
-  </main>
+            {% if session.get('user') %}
+                <a href="/logout" class="hover:underline text-red-400">Logout</a>
+            {% else %}
+                <a href="/login" class="hover:underline">Login</a>
+            {% endif %}
 
+            <button onclick="toggleTheme()" id="themeToggle" class="text-2xl">🌚</button>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main class="p-6 flex-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800 p-4 text-center">
+        &copy; 2025 Mini Marketplace
+    </footer>
 </body>
 </html>
-
